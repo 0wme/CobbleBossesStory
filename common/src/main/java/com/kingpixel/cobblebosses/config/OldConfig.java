@@ -6,6 +6,7 @@ package com.kingpixel.cobblebosses.config;
 
 import com.kingpixel.cobblebosses.CobbleBosses;
 import com.kingpixel.cobblebosses.model.Boss;
+import com.kingpixel.cobblebosses.model.BossRewards;
 import com.kingpixel.cobbleutils.CobbleUtils;
 import com.kingpixel.cobbleutils.Model.AdvancedItemChance;
 import com.kingpixel.cobbleutils.Model.Particle;
@@ -68,8 +69,13 @@ public class OldConfig {
         boss.setGlowing(oldConfig.isGlowing());
         boss.setGlowingColor(oldConfig.getGlowingColor());
         boss.setNickName(oldConfig.getNickname());
-        boss.setRewards(oldConfig.getRewards());
+        // Les anciennes récompenses ne sont pas migrées automatiquement
+        // L'utilisateur devra reconfigurer manuellement avec le nouveau format
+        boss.setRewards(new BossRewards());
         boss.setParticleColor("#FFFFFF");
+        
+        CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, 
+          "Boss " + boss.getId() + " migré, mais les récompenses doivent être reconfigurées manuellement avec le nouveau format JSON.");
         Utils.writeFileAsync(CobbleBosses.PATH_BOSSES, boss.getId() + ".json", Utils.newGson().toJson(boss));
         CobbleBosses.bossesConfig.getBosses().add(boss);
       });

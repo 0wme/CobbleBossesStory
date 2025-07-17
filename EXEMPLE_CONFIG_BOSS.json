@@ -1,0 +1,68 @@
+{
+  "id": "exemple_boss",
+  "nickName": "§e%pokemon% §9Boss",
+  "glowing": true,
+  "glowingColor": "LIGHT_PURPLE",
+  "particles": true,
+  "particleColor": "#CBC3E3",
+  "chance": 0.1,
+  "maxLevel": 120,
+  "minLevel": 100,
+  "maxSize": 2.0,
+  "minSize": 1.5,
+  "properties": "shiny=true",
+  "rewards": {
+    "rewards": [
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Grosses Bottes",
+        "identifier": "cobblemon:heavy_duty_boots",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 3.0
+      },
+      {
+        "type": "command",
+        "customModelData": -1,
+        "value": "give {player} relics_of_legends:adamant_orb 1",
+        "name": "Orbe Adamant",
+        "identifier": "relics_of_legends:adamant_orb",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 1.0
+      },
+      {
+        "type": "item",
+        "customModelData": 12345,
+        "value": "",
+        "name": "§6Pokéball Dorée",
+        "identifier": "cobblemon:poke_ball",
+        "quantityMin": 5,
+        "quantityMax": 10,
+        "weight": 5.0
+      },
+      {
+        "type": "command",
+        "customModelData": -1,
+        "value": "money give {player} 1000",
+        "name": "Argent Bonus",
+        "identifier": "",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 2.0
+      },
+      {
+        "type": "command",
+        "customModelData": -1,
+        "value": "broadcast §6{player} §7a vaincu le boss §e%pokemon% §7et reçu une récompense épique!",
+        "name": "Annonce Épique",
+        "identifier": "",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 0.5
+      }
+    ]
+  }
+} 

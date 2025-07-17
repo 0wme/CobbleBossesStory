@@ -6,7 +6,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kingpixel.cobblebosses.CobbleBosses;
 import com.kingpixel.cobblebosses.model.Boss;
 import com.kingpixel.cobbleutils.CobbleUtils;
-import com.kingpixel.cobbleutils.Model.AdvancedItemChance;
+import com.kingpixel.cobblebosses.model.BossRewards;
 import com.kingpixel.cobbleutils.api.PermissionApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
@@ -52,16 +52,29 @@ public abstract class PreventDamageMixin {
           cir.cancel();
           return;
         }
-        AdvancedItemChance rewards = boss.getRewards();
+        BossRewards rewards = boss.getRewards();
         if (rewards == null) {
           if (CobbleBosses.config.isDebug()) {
             CobbleUtils.LOGGER.info("Rewards not found for boss: " + boss);
           }
           return;
         }
-        rewards.openMenu(player, template -> {
-
-        }, close -> UIManager.closeUI(close.getPlayer()));
+        rewards.openMenu(player, 
+          (java.util.function.Consumer<Object>) template -> {
+            // Template callback - pas besoin de logique spécifique ici
+          }, 
+          (java.util.function.Consumer<Object>) close -> {
+            try {
+              // Essayer d'appeler getPlayer() via réflexion
+              java.lang.reflect.Method getPlayerMethod = close.getClass().getMethod("getPlayer");
+              Object playerObj = getPlayerMethod.invoke(close);
+              if (playerObj instanceof net.minecraft.server.network.ServerPlayerEntity) {
+                UIManager.closeUI((net.minecraft.server.network.ServerPlayerEntity) playerObj);
+              }
+            } catch (Exception e) {
+              // Ignorer silencieusement si la méthode n'existe pas
+            }
+          });
       }
       cir.cancel();
     }

@@ -39,7 +39,7 @@ public class Boss {
   private float maxSize;
   private float minSize;
   private String properties;
-  private AdvancedItemChance rewards;
+  private BossRewards rewards;
 
   public Boss() {
     id = "default";
@@ -54,7 +54,31 @@ public class Boss {
     maxSize = 2.0f;
     minSize = 1.5f;
     properties = "shiny=true";
-    rewards = new AdvancedItemChance();
+    rewards = new BossRewards();
+    
+    // Ajouter quelques récompenses par défaut
+    createDefaultRewards();
+  }
+  
+  private void createDefaultRewards() {
+    // Récompense item par défaut
+    Reward itemReward = new Reward();
+    itemReward.setType("item");
+    itemReward.setName("§6Diamant Boss");
+    itemReward.setIdentifier("minecraft:diamond");
+    itemReward.setQuantityMin(1);
+    itemReward.setQuantityMax(3);
+    itemReward.setWeight(3.0);
+    
+    // Récompense commande par défaut
+    Reward commandReward = new Reward();
+    commandReward.setType("command");
+    commandReward.setName("Annonce de victoire");
+    commandReward.setValue("broadcast §6{player} §7a vaincu un §9Boss §7Pokémon!");
+    commandReward.setWeight(1.0);
+    
+    rewards.getRewards().add(itemReward);
+    rewards.getRewards().add(commandReward);
   }
 
   public void check() {
@@ -74,7 +98,8 @@ public class Boss {
     if (glowingColor == null) glowingColor = Formatting.LIGHT_PURPLE;
     if (nickName == null) nickName = "§e%pokemon% §9Boss";
     if (properties == null) properties = "shiny=true";
-    if (rewards == null) rewards = new AdvancedItemChance();
+    if (rewards == null) rewards = new BossRewards();
+    rewards.check();
   }
 
   public void convert(PokemonEntity p) {

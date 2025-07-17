@@ -1,0 +1,15 @@
+{
+  "debug": false,
+  "prefix": "§7[§6CobbleBosses§7] ",
+  "lang": "en",
+  "commands": [
+    "cobblebosses",
+    "bosses"
+  ],
+  "rateSpawn": 2048,
+  "blackListWorlds": [
+    "minecraft:world_nether",
+    "minecraft:world_the_end"
+  ],
+  "dropRolls": 3
+} 

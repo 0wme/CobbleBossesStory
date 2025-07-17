@@ -1,0 +1,128 @@
+{
+  "id": "rare",
+  "nickName": "§d%pokemon% §7Rare",
+  "glowing": true,
+  "glowingColor": "DARK_PURPLE",
+  "particles": true,
+  "particleColor": "#8A2BE2",
+  "chance": 15.0,
+  "maxLevel": 100,
+  "minLevel": 90,
+  "maxSize": 2.2,
+  "minSize": 1.8,
+  "properties": "shiny=true",
+  "rewards": {
+    "rewards": [
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Master Ball",
+        "identifier": "cobblemon:master_ball",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 5.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Ultra Ball",
+        "identifier": "cobblemon:ultra_ball",
+        "quantityMin": 3,
+        "quantityMax": 5,
+        "weight": 15.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Max Potion",
+        "identifier": "cobblemon:max_potion",
+        "quantityMin": 2,
+        "quantityMax": 4,
+        "weight": 12.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Full Restore",
+        "identifier": "cobblemon:full_restore",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 8.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Super Bonbon",
+        "identifier": "cobblemon:rare_candy",
+        "quantityMin": 3,
+        "quantityMax": 5,
+        "weight": 10.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Bonbon L",
+        "identifier": "cobblemon:exp_candy_l",
+        "quantityMin": 2,
+        "quantityMax": 3,
+        "weight": 8.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Lune",
+        "identifier": "cobblemon:moon_stone",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 3.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Soleil",
+        "identifier": "cobblemon:sun_stone",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 3.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Éclat",
+        "identifier": "cobblemon:shiny_stone",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 2.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Sablier d'or",
+        "identifier": "cobblehourglasses:gold_hourglass",
+        "quantityMin": 3,
+        "quantityMax": 8,
+        "weight": 4.0
+      },
+      {
+        "type": "command",
+        "customModelData": -1,
+        "value": "broadcast §d{player} §7a vaincu un §dBoss Rare §7et reçu des récompenses épiques!",
+        "name": "Annonce Boss Rare",
+        "identifier": "",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 5.0
+      }
+    ]
+  }
+} 

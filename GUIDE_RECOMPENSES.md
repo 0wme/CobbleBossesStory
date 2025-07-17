@@ -112,24 +112,45 @@ Dans les commandes (`value`), vous pouvez utiliser :
 ]
 ```
 
-## Système de Poids
+## Système de Poids et Tirages Multiples
 
-Le système sélectionne **UNE** récompense par boss vaincu selon les poids :
+### Configuration du Nombre de Récompenses
 
-**Exemple** : Si vous avez ces récompenses :
-- Diamant (weight: 3.0) = 60% de chances
-- Commande argent (weight: 2.0) = 40% de chances  
-- **Total weight = 5.0**
+Dans `/config/cobblebosses/config.json`, vous pouvez maintenant ajouter :
 
-Plus le poids est élevé, plus la récompense a de chances d'être sélectionnée.
+```json
+{
+  "debug": false,
+  "prefix": "§7[§6CobbleBosses§7] ",
+  "lang": "en",
+  "commands": ["cobblebosses", "bosses"],
+  "rateSpawn": 2048,
+  "blackListWorlds": ["minecraft:world_nether", "minecraft:world_the_end"],
+  "dropRolls": 3
+}
+```
+
+### Comment ça Fonctionne
+
+- **`dropRolls: 1`** = 1 récompense par boss (par défaut)
+- **`dropRolls: 3`** = 3 récompenses par boss  
+- **`dropRolls: 5`** = 5 récompenses par boss
+
+**Exemple** : Avec `dropRolls: 3` et ces récompenses :
+- Diamant (weight: 3.0) = 60% de chances par tirage
+- Commande argent (weight: 2.0) = 40% de chances par tirage
+- **3 tirages indépendants** → jusqu'à 3 récompenses différentes
+
+Plus le poids est élevé, plus la récompense a de chances d'être sélectionnée **à chaque tirage**.
 
 ## Fonctionnement
 
 1. **Boss vaincu** → `boss.getRewards().giveRewards(player)` appelé
 2. **Validation** → Filtre les récompenses valides (`isValid()`)
-3. **Sélection pondérée** → Une récompense choisie selon les poids  
-4. **Exécution** → Item donné OU commande exécutée
-5. **Logs** → Si `debug: true`, tout est loggé
+3. **Lecture dropRolls** → Récupère le nombre de tirages depuis la config
+4. **Tirages multiples** → Fait X tirages pondérés selon `dropRolls`
+5. **Exécution** → Chaque récompense sélectionnée est donnée/exécutée
+6. **Logs** → Si `debug: true`, chaque tirage est loggé
 
 ### Pour les Items (`type: "item"`)
 - Commande `give` générée automatiquement  
@@ -145,9 +166,11 @@ Plus le poids est élevé, plus la récompense a de chances d'être sélectionn�
 - ✅ **Format unifié** : Exactement comme demandé  
 - ✅ **Système de poids** : Contrôle précis des chances
 - ✅ **Items + Commandes** : Mélangés dans la même liste
+- ✅ **Tirages multiples** : Paramètre `dropRolls` configurable  
 - ✅ **Flexibilité maximale** : Intégration de n'importe quel plugin
 - ✅ **NBT Support** : CustomModelData et noms customs  
 - ✅ **Placeholders multiples** : `{player}` et `%player%` supportés
+- ✅ **Debug complet** : Logs détaillés de chaque tirage
 
 ## Migration des Anciennes Configs
 
@@ -161,7 +184,13 @@ Le système créera automatiquement des récompenses par défaut pour les nouvea
 ## FAQ
 
 **Q: Une ou plusieurs récompenses par boss ?**  
-R: Le système donne **UNE** récompense par boss vaincu, sélectionnée selon les poids.
+R: Ça dépend du paramètre `dropRolls` dans la config ! Par défaut 1, mais vous pouvez mettre 3, 5, ou plus.
+
+**Q: Comment configurer plusieurs récompenses ?**  
+R: Ajoutez `"dropRolls": 5` dans `/config/cobblebosses/config.json` pour 5 récompenses par boss.
+
+**Q: Les récompenses peuvent-elles être identiques ?**  
+R: Oui ! Chaque tirage est indépendant, vous pouvez recevoir 3x le même diamant si la chance le veut.
 
 **Q: Puis-je utiliser {player} ET %player% ?**  
 R: Oui ! Les deux formats de placeholder sont supportés dans les commandes.

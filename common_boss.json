@@ -1,0 +1,228 @@
+{
+  "id": "common",
+  "nickName": "§e%pokemon% §7Commun",
+  "glowing": true,
+  "glowingColor": "GREEN",
+  "particles": true,
+  "particleColor": "#00FF00",
+  "chance": 50.0,
+  "maxLevel": 30,
+  "minLevel": 10,
+  "maxSize": 1.5,
+  "minSize": 1.2,
+  "properties": "shiny=true",
+  "rewards": {
+    "rewards": [
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Super Potion",
+        "identifier": "cobblemon:super_potion",
+        "quantityMin": 1,
+        "quantityMax": 3,
+        "weight": 10.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Antidote",
+        "identifier": "cobblemon:antidote",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 8.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Anti Paralysie",
+        "identifier": "cobblemon:paralyze_heal",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 8.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Réveil",
+        "identifier": "cobblemon:awakening",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 8.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Anti Brulure",
+        "identifier": "cobblemon:burn_heal",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 8.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Antigel",
+        "identifier": "cobblemon:ice_heal",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 8.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Jus de Baie",
+        "identifier": "cobblemon:berry_juice",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 7.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pokéball",
+        "identifier": "cobblemon:poke_ball",
+        "quantityMin": 1,
+        "quantityMax": 5,
+        "weight": 10.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Super Ball",
+        "identifier": "cobblemon:great_ball",
+        "quantityMin": 1,
+        "quantityMax": 3,
+        "weight": 7.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Bonbon XS",
+        "identifier": "cobblemon:exp_candy_xs",
+        "quantityMin": 1,
+        "quantityMax": 3,
+        "weight": 8.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Bonbon S",
+        "identifier": "cobblemon:exp_candy_s",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 6.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Sablier d'argent",
+        "identifier": "cobblehourglasses:silver_hourglass",
+        "quantityMin": 2,
+        "quantityMax": 12,
+        "weight": 1.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Sablier d'or",
+        "identifier": "cobblehourglasses:gold_hourglass",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 1.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Huile",
+        "identifier": "cobblemon:ether",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 5.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Rappel",
+        "identifier": "cobblemon:revive",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 4.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Hyper Potion",
+        "identifier": "cobblemon:hyper_potion",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 5.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Attaque +",
+        "identifier": "cobblemon:x_attack",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 3.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Défense +",
+        "identifier": "cobblemon:x_defense",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 3.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Machine à Soin",
+        "identifier": "cobblemon:healing_machine",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 3.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Graine Miracle",
+        "identifier": "cobblemon:miracle_seed",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 2.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Baton de Charbon",
+        "identifier": "cobblemon:charcoal_stick",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 2.0
+      }
+    ]
+  }
+} 

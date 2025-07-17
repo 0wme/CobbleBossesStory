@@ -4,7 +4,10 @@ import com.kingpixel.cobblebosses.CobbleBosses;
 import com.kingpixel.cobbleutils.CobbleUtils;
 import com.kingpixel.cobbleutils.util.Utils;
 import lombok.Data;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 
 /**
  * @author Carlos Varas Alonso - Unified reward system supporting both items and commands
@@ -68,30 +71,40 @@ public class Reward {
                 quantity = Utils.RANDOM.nextInt(quantityMin, quantityMax + 1);
             }
 
-            // Construire la commande give pour donner l'item
-            String giveCommand = "give " + player.getName().getString() + " " + identifier + " " + quantity;
-            
-            // Ajouter les NBT si nécessaire
-            if (customModelData > 0 || (name != null && !name.trim().isEmpty())) {
-                StringBuilder nbtBuilder = new StringBuilder();
-                nbtBuilder.append("{");
+            // Approche 1: Essayer d'abord avec l'inventaire directement
+            try {
+                Identifier itemId = Identifier.of(identifier);
+                var item = Registries.ITEM.get(itemId);
                 
-                boolean hasNbt = false;
-                if (customModelData > 0) {
-                    nbtBuilder.append("CustomModelData:").append(customModelData);
-                    hasNbt = true;
+                if (item != null && item != net.minecraft.item.Items.AIR) {
+                    ItemStack itemStack = new ItemStack(item, quantity);
+                    
+                    // Ajouter à l'inventaire du joueur
+                    if (!player.getInventory().insertStack(itemStack)) {
+                        // Si l'inventaire est plein, drop l'item
+                        player.dropItem(itemStack, false);
+                    }
+                    
+                    if (CobbleBosses.config.isDebug()) {
+                        CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, 
+                            "Gave item via inventory: " + identifier + " x" + quantity + " to " + player.getName().getString());
+                    }
+                    return;
                 }
-                
-                if (name != null && !name.trim().isEmpty()) {
-                    if (hasNbt) nbtBuilder.append(",");
-                    nbtBuilder.append("display:{Name:'{\"text\":\"").append(name).append("\"}'}");
+            } catch (Exception e) {
+                if (CobbleBosses.config.isDebug()) {
+                    CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, 
+                        "Failed to give item via inventory, trying command: " + e.getMessage());
                 }
-                
-                nbtBuilder.append("}");
-                giveCommand += nbtBuilder.toString();
             }
 
-            // Exécuter la commande give
+            // Approche 2: Fallback avec commande give simple
+            String giveCommand = "give " + player.getName().getString() + " " + identifier + " " + quantity;
+            
+            if (CobbleBosses.config.isDebug()) {
+                CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Executing command: " + giveCommand);
+            }
+
             if (CobbleBosses.server != null) {
                 CobbleBosses.server.getCommandManager().executeWithPrefix(
                     CobbleBosses.server.getCommandSource(), 
@@ -100,12 +113,14 @@ public class Reward {
 
                 if (CobbleBosses.config.isDebug()) {
                     CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, 
-                        "Gave item " + identifier + " x" + quantity + " to " + player.getName().getString());
+                        "Executed give command: " + identifier + " x" + quantity + " to " + player.getName().getString());
                 }
+            } else {
+                CobbleUtils.LOGGER.error(CobbleBosses.MOD_ID, "Server is null, cannot execute give command");
             }
 
         } catch (Exception e) {
-            CobbleUtils.LOGGER.error(CobbleBosses.MOD_ID, "Error giving item reward: " + identifier);
+            CobbleUtils.LOGGER.error(CobbleBosses.MOD_ID, "Error giving item reward: " + identifier + " - " + e.getMessage());
             e.printStackTrace();
         }
     }

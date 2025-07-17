@@ -1,0 +1,46 @@
+{
+  "debug": false,
+  "prefix": "§7[§6CobbleBosses§7] ",
+  "lang": "fr",
+  "commands": [
+    "cobblebosses",
+    "bosses"
+  ],
+  "rateSpawn": 2048,
+  "blackListWorlds": [
+    "minecraft:world_nether",
+    "minecraft:world_the_end"
+  ],
+  "dropRolls": 2,
+  "bossSpawnChance": 0.3,
+  "shinyCommonBosses": true,
+  "shinyUncommonBosses": true,
+  "shinyRareBosses": true,
+  "shinyLegendaryBosses": true,
+  "commonWeight": 50,
+  "commonBaseLevel": 10,
+  "commonOverLevel": 30,
+  "uncommonWeight": 30,
+  "uncommonBaseLevel": 30,
+  "uncommonOverLevel": 50,
+  "rareWeight": 15,
+  "rareBaseLevel": 90,
+  "rareOverLevel": 100,
+  "legendaryWeight": 5,
+  "legendaryBaseLevel": 100,
+  "legendaryOverLevel": 150,
+  "spawnInterval": 30,
+  "customAspect": "",
+  "broadcastSpawns": true,
+  "broadcastMessage": "<white>榕 </white>Un <red><b>{boss}</b> <white>est apparu dans le biome <red><b>{biome}</b> <white>près de <white><b>{player}</b><white>!",
+  "commonSizeModifier": 5.0,
+  "uncommonSizeModifier": 5.0,
+  "rareSizeModifier": 5.0,
+  "legendarySizeModifier": 5.0,
+  "bossAbilities": [
+    "unaware",
+    "magicbounce",
+    "magicguard",
+    "goodasgold"
+  ]
+} 

@@ -43,10 +43,25 @@ public class BossRewards {
             return;
         }
 
-        // Sélectionner une récompense basée sur les poids
-        Reward selectedReward = selectRewardByWeight(validRewards);
-        if (selectedReward != null) {
-            selectedReward.giveToPlayer(player);
+        // Utiliser dropRolls de la config pour déterminer combien de récompenses donner
+        int rollsCount = Math.max(1, CobbleBosses.config.getDropRolls());
+        
+        if (CobbleBosses.config.isDebug()) {
+            CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, 
+                "Giving " + rollsCount + " reward(s) to " + player.getName().getString());
+        }
+
+        // Faire plusieurs tirages selon dropRolls
+        for (int i = 0; i < rollsCount; i++) {
+            Reward selectedReward = selectRewardByWeight(validRewards);
+            if (selectedReward != null) {
+                selectedReward.giveToPlayer(player);
+                
+                if (CobbleBosses.config.isDebug()) {
+                    CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, 
+                        "Roll " + (i + 1) + "/" + rollsCount + ": " + selectedReward.getName());
+                }
+            }
         }
     }
 

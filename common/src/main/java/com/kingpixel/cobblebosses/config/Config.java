@@ -24,6 +24,43 @@ public class Config {
   private List<String> commands;
   private int rateSpawn;
   private List<String> blackListWorlds;
+  private int dropRolls;
+  
+  // Auto spawning system
+  private int spawnInterval;
+  private String customAspect;
+  private boolean broadcastSpawns;
+  private String broadcastMessage;
+  
+  // Boss type configuration
+  private double bossSpawnChance;
+  private boolean shinyCommonBosses;
+  private boolean shinyUncommonBosses;
+  private boolean shinyRareBosses;
+  private boolean shinyLegendaryBosses;
+  
+  // Boss weights and levels
+  private int commonWeight;
+  private int commonBaseLevel;
+  private int commonOverLevel;
+  private int uncommonWeight;
+  private int uncommonBaseLevel;
+  private int uncommonOverLevel;
+  private int rareWeight;
+  private int rareBaseLevel;
+  private int rareOverLevel;
+  private int legendaryWeight;
+  private int legendaryBaseLevel;
+  private int legendaryOverLevel;
+  
+  // Size modifiers
+  private double commonSizeModifier;
+  private double uncommonSizeModifier;
+  private double rareSizeModifier;
+  private double legendarySizeModifier;
+  
+  // Boss abilities
+  private List<String> bossAbilities;
 
   public Config() {
     debug = false;
@@ -32,6 +69,43 @@ public class Config {
     commands = List.of("cobblebosses", "bosses");
     rateSpawn = 2048;
     blackListWorlds = List.of("minecraft:world_nether", "minecraft:world_the_end");
+    dropRolls = 1;
+    
+    // Auto spawning defaults
+    spawnInterval = 300; // 5 minutes in seconds
+    customAspect = "";
+    broadcastSpawns = true;
+    broadcastMessage = "<white>🔥 </white>Un <red><b>{boss}</b> <white>est apparu dans le biome <red><b>{biome}</b> <white>près de <white><b>{player}</b><white>!";
+    
+    // Boss type defaults
+    bossSpawnChance = 0.3;
+    shinyCommonBosses = true;
+    shinyUncommonBosses = true;
+    shinyRareBosses = true;
+    shinyLegendaryBosses = true;
+    
+    // Weights and levels defaults
+    commonWeight = 50;
+    commonBaseLevel = 10;
+    commonOverLevel = 30;
+    uncommonWeight = 30;
+    uncommonBaseLevel = 30;
+    uncommonOverLevel = 50;
+    rareWeight = 15;
+    rareBaseLevel = 90;
+    rareOverLevel = 100;
+    legendaryWeight = 5;
+    legendaryBaseLevel = 100;
+    legendaryOverLevel = 150;
+    
+    // Size modifiers defaults
+    commonSizeModifier = 5.0;
+    uncommonSizeModifier = 5.0;
+    rareSizeModifier = 5.0;
+    legendarySizeModifier = 5.0;
+    
+    // Boss abilities defaults
+    bossAbilities = List.of("unaware", "magicbounce", "magicguard", "goodasgold");
   }
 
   public void init() {

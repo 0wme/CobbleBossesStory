@@ -1,0 +1,158 @@
+{
+  "id": "uncommon",
+  "nickName": "§b%pokemon% §7Peu Commun",
+  "glowing": true,
+  "glowingColor": "AQUA",
+  "particles": true,
+  "particleColor": "#00FFFF",
+  "chance": 30.0,
+  "maxLevel": 50,
+  "minLevel": 30,
+  "maxSize": 1.8,
+  "minSize": 1.5,
+  "properties": "shiny=true",
+  "rewards": {
+    "rewards": [
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Poké Ball",
+        "identifier": "cobblemon:poke_ball",
+        "quantityMin": 1,
+        "quantityMax": 3,
+        "weight": 30.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Potion",
+        "identifier": "cobblemon:potion",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 20.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Baie Oran",
+        "identifier": "cobblemon:oran_berry",
+        "quantityMin": 2,
+        "quantityMax": 5,
+        "weight": 15.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Baie Sitrus",
+        "identifier": "cobblemon:sitrus_berry",
+        "quantityMin": 1,
+        "quantityMax": 3,
+        "weight": 10.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Antidote",
+        "identifier": "cobblemon:antidote",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 5.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Bonbon XS",
+        "identifier": "cobblemon:exp_candy_xs",
+        "quantityMin": 1,
+        "quantityMax": 3,
+        "weight": 5.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Bonbon S",
+        "identifier": "cobblemon:exp_candy_s",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 4.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Rappel",
+        "identifier": "cobblemon:revive",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 4.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Super Bonbon",
+        "identifier": "cobblemon:rare_candy",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 2.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Sablier d'argent",
+        "identifier": "cobblehourglasses:silver_hourglass",
+        "quantityMin": 1,
+        "quantityMax": 8,
+        "weight": 1.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Sablier d'or",
+        "identifier": "cobblehourglasses:gold_hourglass",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 1.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Feu",
+        "identifier": "cobblemon:fire_stone",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 2.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Eau",
+        "identifier": "cobblemon:water_stone",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 2.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Plante",
+        "identifier": "cobblemon:leaf_stone",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 2.0
+      }
+    ]
+  }
+} 

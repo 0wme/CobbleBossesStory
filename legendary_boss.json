@@ -1,0 +1,138 @@
+{
+  "id": "legendary",
+  "nickName": "§6%pokemon% §4LÉGENDAIRE",
+  "glowing": true,
+  "glowingColor": "GOLD",
+  "particles": true,
+  "particleColor": "#FFD700",
+  "chance": 5.0,
+  "maxLevel": 150,
+  "minLevel": 100,
+  "maxSize": 3.0,
+  "minSize": 2.5,
+  "properties": "shiny=true",
+  "rewards": {
+    "rewards": [
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Master Ball",
+        "identifier": "cobblemon:master_ball",
+        "quantityMin": 2,
+        "quantityMax": 3,
+        "weight": 20.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Super Bonbon",
+        "identifier": "cobblemon:rare_candy",
+        "quantityMin": 5,
+        "quantityMax": 10,
+        "weight": 18.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Bonbon XL",
+        "identifier": "cobblemon:exp_candy_xl",
+        "quantityMin": 3,
+        "quantityMax": 5,
+        "weight": 15.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Max Revive",
+        "identifier": "cobblemon:max_revive",
+        "quantityMin": 2,
+        "quantityMax": 4,
+        "weight": 12.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Full Restore",
+        "identifier": "cobblemon:full_restore",
+        "quantityMin": 3,
+        "quantityMax": 5,
+        "weight": 10.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Aube",
+        "identifier": "cobblemon:dawn_stone",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 5.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Crépuscule",
+        "identifier": "cobblemon:dusk_stone",
+        "quantityMin": 1,
+        "quantityMax": 2,
+        "weight": 5.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Pierre Glace",
+        "identifier": "cobblemon:ice_stone",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 3.0
+      },
+      {
+        "type": "item",
+        "customModelData": -1,
+        "value": "",
+        "name": "Sablier de diamant",
+        "identifier": "cobblehourglasses:diamond_hourglass",
+        "quantityMin": 5,
+        "quantityMax": 15,
+        "weight": 8.0
+      },
+      {
+        "type": "command",
+        "customModelData": -1,
+        "value": "broadcast §6§l⚡ {player} §r§7a vaincu un §6§lBOSS LÉGENDAIRE §7et reçu des trésors divins! ⚡",
+        "name": "Annonce Légendaire",
+        "identifier": "",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 15.0
+      },
+      {
+        "type": "command",
+        "customModelData": -1,
+        "value": "give {player} minecraft:netherite_ingot 3",
+        "name": "Lingots de Netherite",
+        "identifier": "minecraft:netherite_ingot",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 5.0
+      },
+      {
+        "type": "command",
+        "customModelData": -1,
+        "value": "give {player} minecraft:diamond 10",
+        "name": "Diamants Bonus",
+        "identifier": "minecraft:diamond",
+        "quantityMin": 1,
+        "quantityMax": 1,
+        "weight": 8.0
+      }
+    ]
+  }
+} 

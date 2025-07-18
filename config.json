@@ -1,0 +1,20 @@
+{
+  "debug": false,
+  "prefix": "§7[§6CobbleBosses§7] ",
+  "lang": "fr",
+  "commands": [
+    "cobblebosses",
+    "bosses"
+  ],
+  "rateSpawn": 2048,
+  "blackListWorlds": [
+    "minecraft:world_nether",
+    "minecraft:world_the_end"
+  ],
+  "dropRolls": 2,
+  "spawnInterval": 20,
+  "customAspect": "",
+  "broadcastSpawns": true,
+  "broadcastMessage": "<white>🔥 </white>Un <red><b>{boss}</b> <white>est apparu dans le biome <red><b>{biome}</b> <white>près de <white><b>{player}</b><white>!",
+  "bossSpawnChance": 0.3
+} 

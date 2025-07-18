@@ -7,6 +7,7 @@ import com.kingpixel.cobblebosses.config.Config;
 import com.kingpixel.cobblebosses.config.Lang;
 import com.kingpixel.cobblebosses.events.BattleEvents;
 import com.kingpixel.cobblebosses.events.SpawningEvents;
+import com.kingpixel.cobblebosses.model.AutoSpawner;
 import com.kingpixel.cobbleutils.CobbleUtils;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -58,10 +59,15 @@ public class CobbleBosses {
       load();
       oldLevelCap = Cobblemon.INSTANCE.getConfig().getMaxPokemonLevel();
       
-
+      // Start AutoSpawner if enabled
+      if (CobbleBosses.config.getSpawnInterval() > 0) {
+        AutoSpawner.startAutoSpawning();
+        CobbleUtils.LOGGER.info(MOD_ID, "AutoSpawner started automatically");
+      }
     });
 
     LifecycleEvent.SERVER_STOPPING.register(server -> {
+      AutoSpawner.stopAutoSpawning();
     });
 
     LifecycleEvent.SERVER_LEVEL_LOAD.register(level -> server = level.getServer());

@@ -1,6 +1,7 @@
 package com.kingpixel.cobblebosses.command;
 
 import com.kingpixel.cobblebosses.CobbleBosses;
+import com.kingpixel.cobblebosses.model.AutoSpawner;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandRegistryAccess;
@@ -23,7 +24,8 @@ public class CommandTree {
 
     private static int reload(CommandContext<ServerCommandSource> context) {
         CobbleBosses.load();
-        context.getSource().sendFeedback(() -> Text.literal("§aCobbleBosses reloaded!"), false);
+        AutoSpawner.restart();
+        context.getSource().sendFeedback(() -> Text.literal("§aCobbleBosses reloaded! AutoSpawner restarted automatically."), false);
         return 1;
     }
 }

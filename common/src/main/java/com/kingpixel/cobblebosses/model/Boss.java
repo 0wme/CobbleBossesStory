@@ -152,10 +152,23 @@ public class Boss {
       BlockPos blockPos = new BlockPos((int) pos.x, (int) pos.y, (int) pos.z);
       var biomeEntry = world.getBiome(blockPos);
       var biomeRegistry = world.getRegistryManager().get(RegistryKeys.BIOME);
-      String biomeName = biomeRegistry.getId(biomeEntry.value()).toString()
-          .replace("minecraft:", "")
-          .replace("_", " ");
-      return biomeName.substring(0, 1).toUpperCase() + biomeName.substring(1);
+      String biomeName = biomeRegistry.getId(biomeEntry.value()).toString();
+      
+      // Clean biome name: remove namespace prefixes and format nicely
+      biomeName = biomeName.replaceAll("^[^:]+:", ""); // Remove minecraft:, terralith:, etc.
+      biomeName = biomeName.replace("_", " ");
+      
+      // Capitalize first letter of each word
+      String[] words = biomeName.split(" ");
+      StringBuilder formatted = new StringBuilder();
+      for (String word : words) {
+        if (!word.isEmpty()) {
+          formatted.append(Character.toUpperCase(word.charAt(0)))
+                   .append(word.substring(1).toLowerCase())
+                   .append(" ");
+        }
+      }
+      return formatted.toString().trim();
     } catch (Exception e) {
       return "Unknown";
     }
@@ -172,11 +185,10 @@ public class Boss {
 
   private String getBossDisplayName(Pokemon pokemon) {
     try {
-      String pokemonName = pokemon.getDisplayName().getString();
-      String rarity = getRarityName();
-      return pokemonName + " (" + rarity + ")";
+      // Return only the Pokemon name without rarity
+      return pokemon.getDisplayName().getString();
     } catch (Exception e) {
-      return "Boss Pokemon (" + getRarityName() + ")";
+      return "Boss Pokemon";
     }
   }
 

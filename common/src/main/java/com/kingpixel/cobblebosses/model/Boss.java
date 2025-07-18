@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kingpixel.cobblebosses.CobbleBosses;
+import com.kingpixel.cobbleutils.CobbleUtils;
 import com.kingpixel.cobbleutils.Model.AdvancedItemChance;
 import com.kingpixel.cobbleutils.util.Utils;
 import kotlin.Unit;
@@ -21,6 +22,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Carlos Varas Alonso - 14/02/2025 4:15
@@ -56,12 +60,28 @@ public class Boss {
     properties = "shiny=true";
     rewards = new BossRewards();
     
-    // Ajouter quelques récompenses par défaut
-    createDefaultRewards();
+    List<Reward> defaultRewards = new ArrayList<>();
+    
+    Reward defaultItemReward = new Reward();
+    defaultItemReward.setType("item");
+    defaultItemReward.setName("Default Item");
+    defaultItemReward.setIdentifier("minecraft:diamond");
+    defaultItemReward.setQuantityMin(1);
+    defaultItemReward.setQuantityMax(3);
+    defaultItemReward.setWeight(50.0);
+    defaultRewards.add(defaultItemReward);
+    
+    Reward defaultCommandReward = new Reward();
+    defaultCommandReward.setType("command");
+    defaultCommandReward.setName("Default Command");
+    defaultCommandReward.setValue("give %player% minecraft:gold_ingot 2");
+    defaultCommandReward.setWeight(30.0);
+    defaultRewards.add(defaultCommandReward);
+    
+    this.rewards.setRewards(defaultRewards);
   }
   
   private void createDefaultRewards() {
-    // Récompense item par défaut
     Reward itemReward = new Reward();
     itemReward.setType("item");
     itemReward.setName("§6Diamant Boss");
@@ -70,7 +90,6 @@ public class Boss {
     itemReward.setQuantityMax(3);
     itemReward.setWeight(3.0);
     
-    // Récompense commande par défaut
     Reward commandReward = new Reward();
     commandReward.setType("command");
     commandReward.setName("Annonce de victoire");
@@ -99,7 +118,6 @@ public class Boss {
     if (nickName == null) nickName = "§e%pokemon% §9Boss";
     if (properties == null) properties = "shiny=true";
     if (rewards == null) rewards = new BossRewards();
-    rewards.check();
   }
 
   public void convert(PokemonEntity p) {
@@ -125,7 +143,28 @@ public class Boss {
     }
     team.setColor(this.glowingColor);
     scoreboard.addScoreHolderToTeam(bossEntity.getNameForScoreboard(), team);
+  }
 
+  public static void removeBossFromTeam(ServerWorld world, LivingEntity bossEntity, String teamColorName) {
+    if (bossEntity == null || world == null || teamColorName == null) {
+      return;
+    }
+    
+    try {
+      Scoreboard scoreboard = world.getScoreboard();
+      Team team = scoreboard.getTeam(teamColorName);
+      
+      if (team != null && scoreboard.getScoreHolderTeam(bossEntity.getNameForScoreboard()) == team) {
+        scoreboard.removeScoreHolderFromTeam(bossEntity.getNameForScoreboard(), team);
+      }
+    } catch (Exception e) {
+      CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "Failed to remove boss from team: " + e.getMessage());
+    }
+  }
+
+  public void removeBossFromTeam(ServerWorld world, LivingEntity bossEntity) {
+    String teamColorName = "boss_" + this.glowingColor.getName();
+    removeBossFromTeam(world, bossEntity, teamColorName);
   }
 
   public void spawn(ServerWorld world, Vec3d pos, Pokemon pokemon) {

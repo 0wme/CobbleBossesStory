@@ -56,7 +56,21 @@ public class BattleEvents {
               }
               return Unit.INSTANCE;
             }
-            boss.getRewards().giveRewards(player);
+            
+            // Clean up team before giving rewards to prevent team removal errors
+            try {
+              PokemonEntity entity = pokemon.getEntity();
+              if (entity != null && entity.getWorld() instanceof net.minecraft.server.world.ServerWorld serverWorld) {
+                boss.removeBossFromTeam(serverWorld, entity);
+                if (CobbleBosses.config.isDebug()) {
+                  CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Cleaned up team for defeated boss: " + id);
+                }
+              }
+            } catch (Exception e) {
+              CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "Failed to clean up boss team: " + e.getMessage());
+            }
+            
+            boss.getRewards().giveRandomRewards(player);
             return Unit.INSTANCE;
           }
         }

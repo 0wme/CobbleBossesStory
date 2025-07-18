@@ -59,22 +59,7 @@ public abstract class PreventDamageMixin {
           }
           return;
         }
-        rewards.openMenu(player, 
-          (java.util.function.Consumer<Object>) template -> {
-            // Template callback - pas besoin de logique spécifique ici
-          }, 
-          (java.util.function.Consumer<Object>) close -> {
-            try {
-              // Essayer d'appeler getPlayer() via réflexion
-              java.lang.reflect.Method getPlayerMethod = close.getClass().getMethod("getPlayer");
-              Object playerObj = getPlayerMethod.invoke(close);
-              if (playerObj instanceof net.minecraft.server.network.ServerPlayerEntity) {
-                UIManager.closeUI((net.minecraft.server.network.ServerPlayerEntity) playerObj);
-              }
-            } catch (Exception e) {
-              // Ignorer silencieusement si la méthode n'existe pas
-            }
-          });
+        rewards.openGui(player);
       }
       cir.cancel();
     }

@@ -84,17 +84,17 @@ public class Config {
     shinyRareBosses = true;
     shinyLegendaryBosses = true;
     
-    // Weights and levels defaults
-    commonWeight = 50;
+    // Weights and levels defaults (30% Common, 40% Uncommon, 20% Rare, 10% Legendary)
+    commonWeight = 30;
     commonBaseLevel = 10;
     commonOverLevel = 30;
-    uncommonWeight = 30;
+    uncommonWeight = 40;
     uncommonBaseLevel = 30;
     uncommonOverLevel = 50;
-    rareWeight = 15;
+    rareWeight = 20;
     rareBaseLevel = 90;
     rareOverLevel = 100;
-    legendaryWeight = 5;
+    legendaryWeight = 10;
     legendaryBaseLevel = 100;
     legendaryOverLevel = 150;
     

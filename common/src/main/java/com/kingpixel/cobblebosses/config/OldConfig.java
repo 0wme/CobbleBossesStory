@@ -69,8 +69,6 @@ public class OldConfig {
         boss.setGlowing(oldConfig.isGlowing());
         boss.setGlowingColor(oldConfig.getGlowingColor());
         boss.setNickName(oldConfig.getNickname());
-        // Les anciennes récompenses ne sont pas migrées automatiquement
-        // L'utilisateur devra reconfigurer manuellement avec le nouveau format
         boss.setRewards(new BossRewards());
         boss.setParticleColor("#FFFFFF");
         

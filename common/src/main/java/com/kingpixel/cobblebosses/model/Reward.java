@@ -9,30 +9,16 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-/**
- * @author Carlos Varas Alonso - Unified reward system supporting both items and commands
- */
 @Data
 public class Reward {
-    private String type; // "item" ou "command"
+    private String type;
     private int customModelData;
-    private String value; // Pour les commandes, c'est la commande à exécuter
+    private String value;
     private String name;
     private String identifier;
     private int quantityMin;
     private int quantityMax;
     private double weight;
-
-    public Reward() {
-        this.type = "item";
-        this.customModelData = -1;
-        this.value = "";
-        this.name = "";
-        this.identifier = "";
-        this.quantityMin = 1;
-        this.quantityMax = 1;
-        this.weight = 1.0;
-    }
 
     public void giveToPlayer(ServerPlayerEntity player) {
         if (type == null) {
@@ -71,17 +57,14 @@ public class Reward {
                 quantity = Utils.RANDOM.nextInt(quantityMin, quantityMax + 1);
             }
 
-            // Approche 1: Essayer d'abord avec l'inventaire directement
             try {
                 Identifier itemId = Identifier.of(identifier);
                 var item = Registries.ITEM.get(itemId);
-                
+            
                 if (item != null && item != net.minecraft.item.Items.AIR) {
                     ItemStack itemStack = new ItemStack(item, quantity);
                     
-                    // Ajouter à l'inventaire du joueur
                     if (!player.getInventory().insertStack(itemStack)) {
-                        // Si l'inventaire est plein, drop l'item
                         player.dropItem(itemStack, false);
                     }
                     
@@ -98,7 +81,6 @@ public class Reward {
                 }
             }
 
-            // Approche 2: Fallback avec commande give simple
             String giveCommand = "give " + player.getName().getString() + " " + identifier + " " + quantity;
             
             if (CobbleBosses.config.isDebug()) {
@@ -134,13 +116,11 @@ public class Reward {
                 return;
             }
 
-            // Remplacer les placeholders
             String processedCommand = value.replace("{player}", player.getName().getString())
                                            .replace("%player%", player.getName().getString())
                                            .replace("{uuid}", player.getUuidAsString())
                                            .replace("%uuid%", player.getUuidAsString());
-
-            // Exécuter la commande depuis la console
+            
             if (CobbleBosses.server != null) {
                 CobbleBosses.server.getCommandManager().executeWithPrefix(
                     CobbleBosses.server.getCommandSource(), 

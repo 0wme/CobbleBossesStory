@@ -7,6 +7,7 @@ import com.kingpixel.cobblebosses.config.Config;
 import com.kingpixel.cobblebosses.config.Lang;
 import com.kingpixel.cobblebosses.events.BattleEvents;
 import com.kingpixel.cobblebosses.events.SpawningEvents;
+import com.kingpixel.cobbleutils.CobbleUtils;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import net.minecraft.server.MinecraftServer;
@@ -35,7 +36,6 @@ public class CobbleBosses {
   }
 
   private static void tasks() {
-
   }
 
 
@@ -51,14 +51,18 @@ public class CobbleBosses {
 
 
     CommandRegistrationEvent.EVENT.register((dispatcher, registry, selection) -> {
-      CommandTree.register(dispatcher, registry);
+      CommandTree.registerCommands(dispatcher, registry, selection);
     });
 
     LifecycleEvent.SERVER_STARTED.register(server -> {
       load();
       oldLevelCap = Cobblemon.INSTANCE.getConfig().getMaxPokemonLevel();
+      
+
     });
 
+    LifecycleEvent.SERVER_STOPPING.register(server -> {
+    });
 
     LifecycleEvent.SERVER_LEVEL_LOAD.register(level -> server = level.getServer());
 

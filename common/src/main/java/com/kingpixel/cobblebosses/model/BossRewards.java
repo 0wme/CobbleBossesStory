@@ -3,16 +3,11 @@ package com.kingpixel.cobblebosses.model;
 import com.kingpixel.cobblebosses.CobbleBosses;
 import com.kingpixel.cobbleutils.CobbleUtils;
 import com.kingpixel.cobbleutils.util.Utils;
-import lombok.Data;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Carlos Varas Alonso - Enhanced reward system supporting both items and commands
- */
-@Data
 public class BossRewards {
     private List<Reward> rewards;
 
@@ -20,103 +15,91 @@ public class BossRewards {
         this.rewards = new ArrayList<>();
     }
 
-    public void giveRewards(ServerPlayerEntity player) {
-        if (rewards == null || rewards.isEmpty()) {
-            if (CobbleBosses.config.isDebug()) {
-                CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "No rewards configured for boss");
-            }
-            return;
-        }
+    public BossRewards(List<Reward> rewards) {
+        this.rewards = rewards != null ? rewards : new ArrayList<>();
+    }
 
-        // Filtrer les récompenses valides
-        List<Reward> validRewards = new ArrayList<>();
-        for (Reward reward : rewards) {
-            if (reward != null && reward.isValid()) {
-                validRewards.add(reward);
-            }
-        }
+    public List<Reward> getRewards() {
+        return rewards;
+    }
 
+    public void setRewards(List<Reward> rewards) {
+        this.rewards = rewards != null ? rewards : new ArrayList<>();
+    }
+
+    public List<Reward> getValidRewards() {
+        if (rewards == null) return new ArrayList<>();
+        
+        return rewards.stream()
+                .filter(reward -> reward != null && reward.isValid())
+                .toList();
+    }
+
+    public void giveRandomRewards(ServerPlayerEntity player) {
+        List<Reward> validRewards = getValidRewards();
         if (validRewards.isEmpty()) {
             if (CobbleBosses.config.isDebug()) {
-                CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "No valid rewards found for boss");
+                CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "No valid rewards available for boss");
             }
             return;
         }
 
-        // Utiliser dropRolls de la config pour déterminer combien de récompenses donner
-        int rollsCount = Math.max(1, CobbleBosses.config.getDropRolls());
+        int dropRolls = CobbleBosses.config.getDropRolls();
         
-        if (CobbleBosses.config.isDebug()) {
-            CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, 
-                "Giving " + rollsCount + " reward(s) to " + player.getName().getString());
-        }
-
-        // Faire plusieurs tirages selon dropRolls
-        for (int i = 0; i < rollsCount; i++) {
-            Reward selectedReward = selectRewardByWeight(validRewards);
+        for (int i = 0; i < dropRolls; i++) {
+            if (CobbleBosses.config.isDebug()) {
+                CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Roll " + (i + 1) + "/" + dropRolls);
+            }
+            
+            Reward selectedReward = selectRandomReward(validRewards);
             if (selectedReward != null) {
                 selectedReward.giveToPlayer(player);
-                
                 if (CobbleBosses.config.isDebug()) {
                     CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, 
-                        "Roll " + (i + 1) + "/" + rollsCount + ": " + selectedReward.getName());
+                        "Gave reward: " + selectedReward.getName() + " (type: " + selectedReward.getType() + ")");
                 }
             }
         }
     }
 
-    private Reward selectRewardByWeight(List<Reward> validRewards) {
-        // Calculer le poids total
-        double totalWeight = 0;
-        for (Reward reward : validRewards) {
-            totalWeight += reward.getWeight();
-        }
+    private Reward selectRandomReward(List<Reward> validRewards) {
+        if (validRewards.isEmpty()) return null;
+
+        double totalWeight = validRewards.stream()
+                .mapToDouble(Reward::getWeight)
+                .sum();
 
         if (totalWeight <= 0) {
-            // Si aucun poids, prendre au hasard
             return validRewards.get(Utils.RANDOM.nextInt(validRewards.size()));
         }
 
-        // Sélection pondérée
-        double random = Utils.RANDOM.nextDouble() * totalWeight;
+        double randomValue = Utils.RANDOM.nextDouble() * totalWeight;
+        double currentWeight = 0;
+
         for (Reward reward : validRewards) {
-            random -= reward.getWeight();
-            if (random <= 0) {
+            currentWeight += reward.getWeight();
+            if (randomValue <= currentWeight) {
                 return reward;
             }
         }
 
-        // Fallback - retourner le dernier
         return validRewards.get(validRewards.size() - 1);
     }
 
-    @SuppressWarnings("unchecked")
-    public void openMenu(ServerPlayerEntity player, 
-                        java.util.function.Consumer<?> templateCallback,
-                        java.util.function.Consumer<?> closeCallback) {
-        // Pour le nouveau système, on pourrait implémenter un menu GUI custom
-        // ou simplement log les récompenses disponibles
+    public void openGui(ServerPlayerEntity player) {
         if (CobbleBosses.config.isDebug()) {
-            CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Opening rewards menu for " + player.getName().getString());
-            if (rewards != null && !rewards.isEmpty()) {
-                for (Reward reward : rewards) {
-                    if (reward != null && reward.isValid()) {
-                        CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, 
-                            "Available reward: " + reward.getName() + " (weight: " + reward.getWeight() + ")");
-                    }
-                }
-            }
+            CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Opening rewards GUI for " + player.getName().getString());
         }
     }
 
-    public void check() {
-        if (rewards == null) {
-            rewards = new ArrayList<>();
-        }
+    private void validateRewards() {
+        if (rewards == null) return;
         
-        // Vérifier et nettoyer les récompenses invalides
-        if (!rewards.isEmpty()) {
-            rewards.removeIf(reward -> reward == null || !reward.isValid());
+        rewards.removeIf(reward -> reward == null || !reward.isValid());
+        
+        if (CobbleBosses.config.isDebug()) {
+            CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, 
+                "Validated rewards. Valid count: " + rewards.size());
         }
     }
 } 

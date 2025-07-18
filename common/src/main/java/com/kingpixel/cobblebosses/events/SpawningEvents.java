@@ -2,11 +2,14 @@ package com.kingpixel.cobblebosses.events;
 
 import com.cobblemon.mod.common.api.Priority;
 import com.cobblemon.mod.common.api.events.CobblemonEvents;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kingpixel.cobblebosses.CobbleBosses;
 import com.kingpixel.cobblebosses.config.BossesConfig;
+
 import com.kingpixel.cobbleutils.util.PokemonUtils;
 import com.kingpixel.cobbleutils.util.Utils;
+
 import kotlin.Unit;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;

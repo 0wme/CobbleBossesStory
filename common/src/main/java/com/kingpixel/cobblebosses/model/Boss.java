@@ -16,9 +16,11 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
@@ -126,6 +128,114 @@ public class Boss {
     Vec3d pos = p.getPos();
     p.remove(Entity.RemovalReason.DISCARDED);
     spawn(world, pos, pokemon);
+    
+    // Broadcast boss spawn message if enabled
+    if (CobbleBosses.config.isBroadcastSpawns()) {
+      try {
+        String biomeName = getBiomeName(world, pos);
+        String playerName = findNearestPlayerName(world, pos);
+        String bossDisplayName = getBossDisplayName(pokemon);
+        
+        broadcastSpawnMessage(bossDisplayName, biomeName, playerName);
+        
+        if (CobbleBosses.config.isDebug()) {
+          CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Broadcasted boss spawn: " + bossDisplayName);
+        }
+      } catch (Exception e) {
+        CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "Failed to broadcast boss spawn: " + e.getMessage());
+      }
+    }
+  }
+
+  private String getBiomeName(ServerWorld world, Vec3d pos) {
+    try {
+      BlockPos blockPos = new BlockPos((int) pos.x, (int) pos.y, (int) pos.z);
+      var biomeEntry = world.getBiome(blockPos);
+      var biomeRegistry = world.getRegistryManager().get(RegistryKeys.BIOME);
+      String biomeName = biomeRegistry.getId(biomeEntry.value()).toString()
+          .replace("minecraft:", "")
+          .replace("_", " ");
+      return biomeName.substring(0, 1).toUpperCase() + biomeName.substring(1);
+    } catch (Exception e) {
+      return "Unknown";
+    }
+  }
+
+  private String findNearestPlayerName(ServerWorld world, Vec3d pos) {
+    try {
+      var nearestPlayer = world.getClosestPlayer(pos.x, pos.y, pos.z, 100.0, false);
+      return nearestPlayer != null ? nearestPlayer.getName().getString() : "Un joueur";
+    } catch (Exception e) {
+      return "Un joueur";
+    }
+  }
+
+  private String getBossDisplayName(Pokemon pokemon) {
+    try {
+      String pokemonName = pokemon.getDisplayName().getString();
+      String rarity = getRarityName();
+      return pokemonName + " (" + rarity + ")";
+    } catch (Exception e) {
+      return "Boss Pokemon (" + getRarityName() + ")";
+    }
+  }
+
+  private String getRarityName() {
+    if (chance >= 0.30) return "Commun";
+    else if (chance >= 0.20) return "Uncommon";
+    else if (chance >= 0.10) return "Rare";
+    else return "Légendaire";
+  }
+
+  private void broadcastSpawnMessage(String bossName, String biomeName, String playerName) {
+    try {
+      if (CobbleBosses.server == null) return;
+      
+      String message = CobbleBosses.config.getBroadcastMessage()
+          .replace("{boss}", bossName)
+          .replace("{biome}", biomeName)
+          .replace("{player}", playerName);
+      
+      message = convertColorTags(message);
+      
+      Text broadcastText = Text.literal(message);
+      
+      for (var player : CobbleBosses.server.getPlayerManager().getPlayerList()) {
+        player.sendMessage(broadcastText, false);
+      }
+      
+      if (CobbleBosses.config.isDebug()) {
+        CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Sent broadcast message: " + message);
+      }
+      
+    } catch (Exception e) {
+      CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "Error broadcasting spawn message: " + e.getMessage());
+    }
+  }
+
+  private String convertColorTags(String message) {
+    return message
+        .replace("<red>", "§c").replace("</red>", "§r")
+        .replace("<green>", "§a").replace("</green>", "§r")
+        .replace("<blue>", "§9").replace("</blue>", "§r")
+        .replace("<yellow>", "§e").replace("</yellow>", "§r")
+        .replace("<purple>", "§d").replace("</purple>", "§r")
+        .replace("<aqua>", "§b").replace("</aqua>", "§r")
+        .replace("<white>", "§f").replace("</white>", "§r")
+        .replace("<black>", "§0").replace("</black>", "§r")
+        .replace("<gray>", "§7").replace("</gray>", "§r")
+        .replace("<dark_red>", "§4").replace("</dark_red>", "§r")
+        .replace("<dark_green>", "§2").replace("</dark_green>", "§r")
+        .replace("<dark_blue>", "§1").replace("</dark_blue>", "§r")
+        .replace("<gold>", "§6").replace("</gold>", "§r")
+        .replace("<dark_purple>", "§5").replace("</dark_purple>", "§r")
+        .replace("<dark_aqua>", "§3").replace("</dark_aqua>", "§r")
+        .replace("<dark_gray>", "§8").replace("</dark_gray>", "§r")
+        .replace("<bold>", "§l").replace("</bold>", "§r")
+        .replace("<italic>", "§o").replace("</italic>", "§r")
+        .replace("<underline>", "§n").replace("</underline>", "§r")
+        .replace("<strikethrough>", "§m").replace("</strikethrough>", "§r")
+        .replace("<b>", "§l").replace("</b>", "§r");
   }
 
   private void assignBossToTeam(ServerWorld world, LivingEntity bossEntity) {

@@ -3,6 +3,7 @@ package com.kingpixel.cobblebosses.config;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kingpixel.cobblebosses.CobbleBosses;
 import com.kingpixel.cobblebosses.model.Boss;
+import com.kingpixel.cobbleutils.CobbleUtils;
 import com.kingpixel.cobbleutils.util.Utils;
 import lombok.Getter;
 
@@ -60,19 +61,51 @@ public class BossesConfig {
 
 
   public static Boss getRandomBoss() {
+    List<Boss> bosses = CobbleBosses.bossesConfig.getBosses();
+    
+    if (CobbleBosses.config.isDebug()) {
+      CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "getRandomBoss called - Available bosses: " + bosses.size());
+    }
+    
+    if (bosses.isEmpty()) {
+      CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "No bosses loaded! Check boss configuration files.");
+      return null;
+    }
+    
     float totalWeight = 0;
-    for (Boss boss : CobbleBosses.bossesConfig.getBosses()) {
+    for (Boss boss : bosses) {
       totalWeight += boss.getChance();
+      if (CobbleBosses.config.isDebug()) {
+        CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Boss: " + boss.getId() + " - Chance: " + boss.getChance());
+      }
+    }
+    
+    if (totalWeight <= 0) {
+      CobbleUtils.LOGGER.warn(CobbleBosses.MOD_ID, "Total boss weight is 0! All bosses have 0 chance.");
+      return null;
+    }
+    
+    if (CobbleBosses.config.isDebug()) {
+      CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Total boss weight: " + totalWeight);
     }
 
     float random = Utils.RANDOM.nextFloat() * totalWeight;
-    for (Boss boss : CobbleBosses.bossesConfig.getBosses()) {
+    for (Boss boss : bosses) {
       random -= boss.getChance();
       if (random <= 0) {
+        if (CobbleBosses.config.isDebug()) {
+          CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Selected boss: " + boss.getId());
+        }
         return boss;
       }
     }
-    return null;
+    
+    // Fallback
+    Boss fallback = bosses.get(bosses.size() - 1);
+    if (CobbleBosses.config.isDebug()) {
+      CobbleUtils.LOGGER.info(CobbleBosses.MOD_ID, "Using fallback boss: " + fallback.getId());
+    }
+    return fallback;
   }
 
   public Boss getBoss(Pokemon pokemon) {

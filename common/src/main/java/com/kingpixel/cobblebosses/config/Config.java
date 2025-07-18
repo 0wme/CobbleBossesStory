@@ -67,7 +67,7 @@ public class Config {
     prefix = "§7[§6CobbleBosses§7] ";
     lang = "en";
     commands = List.of("cobblebosses", "bosses");
-    rateSpawn = 2048;
+    rateSpawn = 100;
     blackListWorlds = List.of("minecraft:world_nether", "minecraft:world_the_end");
     dropRolls = 1;
     
